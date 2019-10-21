@@ -29,6 +29,7 @@ class RootController: Controller {
     ) {
         super.onChangeEnded(changeHandler, changeType)
 
+        // When "Register" button is clicked, the registration_layout will inflate from the RegisterController
         view?.findViewById<Button>(R.id.btn_register)?.setOnClickListener {
             router.pushController(
                 RouterTransaction.with(RegisterController(args))
