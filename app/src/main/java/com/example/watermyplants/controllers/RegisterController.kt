@@ -29,10 +29,10 @@ class RegisterController : Controller {
     ) {
         super.onChangeEnded(changeHandler, changeType)
 
-        // When "Submit" button is clicked, the login_layout will inflate from the RootController
+        // When "Submit" button is clicked, the plant_list will inflate from the RootController
         view?.findViewById<Button>(R.id.btn_submit)?.setOnClickListener {
             router.pushController(
-                RouterTransaction.with(RootController(args))
+                RouterTransaction.with(PlantListController(args))
                     .pushChangeHandler(HorizontalChangeHandler())
                     .popChangeHandler(HorizontalChangeHandler())
             )

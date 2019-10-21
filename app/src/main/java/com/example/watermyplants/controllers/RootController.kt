@@ -37,5 +37,13 @@ class RootController: Controller {
                     .popChangeHandler(HorizontalChangeHandler())
             )
         }
+
+        view?.findViewById<Button>(R.id.btn_login)?.setOnClickListener {
+            router.pushController(
+                RouterTransaction.with(PlantListController(args))
+                    .pushChangeHandler(HorizontalChangeHandler())
+                    .popChangeHandler(HorizontalChangeHandler())
+            )
+        }
     }
 }
