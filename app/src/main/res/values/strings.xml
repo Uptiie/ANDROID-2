@@ -13,6 +13,7 @@
     <string name="species">Species</string>
     <string name="nickname">Nickname</string>
     <string name="cancel">Cancel</string>
-    <string name="update">Update</string>
     <string name="delete">Delete</string>
+    <string name="edit_user_profile">Edit User Profile</string>
+    <string name="logout">Logout</string>
 </resources>
