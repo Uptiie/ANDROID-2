@@ -38,6 +38,7 @@ class RootController: Controller {
             )
         }
 
+        // When "Login" button is clicked, the plant_list will inflate from the PlantListController
         view?.findViewById<Button>(R.id.btn_login)?.setOnClickListener {
             router.pushController(
                 RouterTransaction.with(PlantListController(args))
