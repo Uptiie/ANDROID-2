@@ -2,7 +2,6 @@ package com.example.watermyplants.controllers
 
 import android.os.Bundle
 import android.view.*
-import android.widget.Button
 import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
