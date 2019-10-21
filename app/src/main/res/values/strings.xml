@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">WaterMyPlants</string>
+    <string name="app_name">Water My Plants</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="show">Show</string>
+    <string name="log_in">Log In</string>
+    <string name="register">Register</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="submit">Submit</string>
+    <string name="update">Update</string>
 </resources>
