@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">WaterMyPlants</string>
+    <string name="app_name">Water My Plants</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="show">Show</string>
+    <string name="log_in">Log In</string>
+    <string name="register">Register</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="submit">Submit</string>
+    <string name="update">Update</string>
+    <string name="h20_frequency">h20 Frequency</string>
+    <string name="species">Species</string>
+    <string name="nickname">Nickname</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="edit_user_profile">Edit User Profile</string>
+    <string name="logout">Logout</string>
 </resources>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#ffffff"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/tv_nickname_details"
+        android:text="@string/nickname"
+        style="@style/tv_login_register"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_nickname_details"
+        style="@style/et_box"
+        app:layout_constraintTop_toBottomOf="@id/tv_nickname_details"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_species_details"
+        android:text="@string/species"
+        style="@style/tv_login_register"
+        app:layout_constraintTop_toBottomOf="@+id/et_nickname_details"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <EditText
+        android:id="@+id/et_species_details"
+        style="@style/et_box"
+        app:layout_constraintTop_toBottomOf="@id/tv_species_details"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_h20frequency_details"
+        style="@style/tv_login_register"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="48dp"
+        android:text="@string/h20_frequency"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_species_details" />
+
+    <EditText
+        android:id="@+id/et_h20frequency_int_details"
+        android:hint="1"
+        android:inputType="number"
+        android:paddingStart="4dp"
+        android:textSize="20sp"
+        android:background="@drawable/edit_text_background"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="4dp"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_h20frequency_details"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_times_details"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:text="times /"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toRightOf="@+id/et_h20frequency_int_details"
+        app:layout_constraintTop_toBottomOf="@+id/tv_h20frequency_details"/>
+
+    <EditText
+        android:id="@+id/et_h20frequency_details"
+        android:hint="Week"
+        android:paddingStart="4dp"
+        android:textSize="20sp"
+        android:background="@drawable/edit_text_background"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tv_h20frequency_details"
+        app:layout_constraintLeft_toRightOf="@id/tv_times_details"/>
+
+    <ImageView
+        android:id="@+id/iv_listing_details"
+        android:src="@drawable/image_placeholder"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        app:layout_constraintTop_toBottomOf="@+id/et_h20frequency_details"
+        app:layout_constraintBottom_toTopOf="@id/btn_listing_update_details"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_listing_cancel_details"
+        android:text="@string/cancel"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/rounded_corner_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btn_listing_update_details"/>
+
+    <Button
+        android:id="@+id/btn_listing_update_details"
+        android:text="@string/update"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/rounded_corner_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btn_listing_cancel_details"
+        app:layout_constraintRight_toLeftOf="@id/btn_listing_delete_details"/>
+
+    <Button
+        android:id="@+id/btn_listing_delete_details"
+        android:text="@string/delete"
+        android:textSize="16sp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/rounded_corner_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:layout_marginBottom="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btn_listing_update_details"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
