@@ -27,7 +27,6 @@ class PlantController : Controller {
                     .popChangeHandler(HorizontalChangeHandler())
             )
         }
-
         return view
     }
 }
