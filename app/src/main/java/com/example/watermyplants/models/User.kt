@@ -4,9 +4,12 @@ class User (
     val username: String,
     val password: String,
     val phoneNumber: String = "",
-    val token: String = "",
 
     val id: Int = 0
+)
+
+class UserToken (
+    val token: String
 )
 
 class EditUser (
