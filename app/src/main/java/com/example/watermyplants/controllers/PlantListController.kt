@@ -1,6 +1,5 @@
 package com.example.watermyplants.controllers
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,7 +9,6 @@ import com.bluelinelabs.conductor.ControllerChangeType
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.watermyplants.R
-import com.example.watermyplants.adapter.PlantAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.plant_list.view.*
 
