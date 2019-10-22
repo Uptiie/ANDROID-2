@@ -4,10 +4,14 @@ import com.example.watermyplants.models.EditPlant
 import com.example.watermyplants.models.EditUser
 import com.example.watermyplants.models.Plant
 import com.example.watermyplants.models.User
+import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
 
 interface ApiCrud{
+
+
+
     // User
     @GET("user")
     fun allUsers(@Header("Authorization") token: String): Call<List<User>>
@@ -16,7 +20,7 @@ interface ApiCrud{
     fun register(@Body user: EditUser): Call<EditUser>
 
     @POST("user/login")
-    fun login(@Body user: User): Call<User>
+    fun login(@Body user: User): Observable<User>
 
     @GET("user/single_user")
     fun currentUser(@Header("Authorization") token: String): Call<User>
