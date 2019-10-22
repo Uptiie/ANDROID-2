@@ -1,6 +1,8 @@
 package com.example.watermyplants.api
 
+
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 
 object ApiBuilder {
@@ -8,6 +10,7 @@ object ApiBuilder {
     val retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(MoshiConverterFactory.create())
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build()
 
     fun apiCall(): ApiCrud {
