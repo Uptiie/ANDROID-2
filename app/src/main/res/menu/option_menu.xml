@@ -4,11 +4,11 @@
     <item
         android:id="@+id/edit_profile"
         android:title="@string/edit_user_profile"
-        android:visible="false"/>
+        android:visible="true"/>
 
     <item
         android:id="@+id/logout"
         android:title="@string/logout"
-        android:visible="false"/>
+        android:visible="true"/>
 
 </menu>
