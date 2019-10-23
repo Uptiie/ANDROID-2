@@ -97,19 +97,19 @@ object PlantListDao {
 
     private val disposableDeletePlant = CompositeDisposable()
 
-    private val _plantDeleted = MutableLiveData<Int>()
-    val plantDeleted: LiveData<Int> = _plantDeleted
+    private val _plantDeleted = MutableLiveData<Plant>()
+    val plantDeleted: LiveData<Plant> = _plantDeleted
 
     fun deletePlant(token: String, plant: Plant){
         val observable = ApiBuilder.apiCall().deletePlant(token, plant)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-        disposableDeletePlant.add(observable.subscribeWith(object: DisposableObserver<Int>(){
+        disposableDeletePlant.add(observable.subscribeWith(object: DisposableObserver<Plant>(){
             override fun onComplete() {
                 println("complete")
             }
 
-            override fun onNext(t: Int) {
+            override fun onNext(t: Plant) {
                 _plantDeleted.value = t
             }
 

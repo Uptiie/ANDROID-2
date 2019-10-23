@@ -77,7 +77,7 @@ class PlantUpdateController : ViewModelController {
 
             viewModel.deletePlant(token, plant)
 
-            viewModel.plantDeleted()?.observe(this, Observer<Int>{
+            viewModel.plantDeleted()?.observe(this, Observer<Plant>{
                 if (it != null){
                     view.context.showToast("Plant Deleted")
                     returnToList(router)
