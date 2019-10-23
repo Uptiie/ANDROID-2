@@ -27,15 +27,15 @@ interface ApiCrud{
 
     // Plant
     @GET("plants")
-    fun getPlants(@Header("Authorization") token: String): Call<List<Plant>>
+    fun getPlants(@Header("Authorization") token: String): Observable<List<Plant>>
 
     @POST("plants")
-    fun createPlant(@Header("Authorization") token: String, @Body plant: EditPlant): Call<Plant>
+    fun createPlant(@Header("Authorization") token: String, @Body plant: EditPlant): Observable<Plant>
 
-    @DELETE("plants")
-    fun deletePlant(@Header("Authorization") token: String, @Body plant: Plant): Call<Plant>
+    @HTTP(method = "DELETE", path = "plants", hasBody = true)
+    fun deletePlant(@Header("Authorization") token: String, @Body plant: Plant): Observable<Plant>
 
     @PUT("plants")
-    fun updatePlant(@Header("Authorization") token: String, @Body plant: Plant): Call<Plant>
+    fun updatePlant(@Header("Authorization") token: String, @Body plant: Plant): Observable<Int>
 
 }
