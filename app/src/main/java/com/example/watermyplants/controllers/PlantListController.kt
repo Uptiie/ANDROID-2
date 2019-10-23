@@ -1,7 +1,9 @@
 package com.example.watermyplants.controllers
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
+import androidx.core.content.edit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -84,8 +86,10 @@ class PlantListController : ViewModelController {
         }
         // When "Logout" is clicked, the login_layout will inflate from the RootController
         if (id == R.id.menu_logout) {
+            App.sharedPref?.edit()?.clear()?.apply()
+
             router.pushController(
-                RouterTransaction.with(RootController(args))
+                RouterTransaction.with(RootController())
                     .pushChangeHandler(HorizontalChangeHandler())
                     .popChangeHandler(HorizontalChangeHandler())
             )
