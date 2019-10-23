@@ -7,6 +7,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import com.example.watermyplants.R
+import org.json.JSONObject
 
 fun showPassword(view: View?){
     var isShown = false
@@ -30,4 +31,18 @@ fun showPassword(view: View?){
 
 fun Context.showToast(string: String){
     Toast.makeText(this, string, Toast.LENGTH_SHORT).show()
+}
+
+
+fun getUsernameFromToken(token: String?): String{
+    val splitToken = token?.split(".")
+    val codedData = splitToken?.get(1)
+    val decodedByte = android.util.Base64.decode(codedData, android.util.Base64.DEFAULT)
+    val decodedString = String(decodedByte)
+    val stringToJSON = JSONObject(decodedString)
+    return stringToJSON.get("username").toString()
+}
+
+fun isNotBlank(name: EditText?, phone: EditText?, pass: EditText?, passConfirm: EditText?): Boolean{
+    return !name?.text.isNullOrBlank() && !phone?.text.isNullOrBlank() && !pass?.text.isNullOrBlank() && !passConfirm?.text.isNullOrBlank()
 }

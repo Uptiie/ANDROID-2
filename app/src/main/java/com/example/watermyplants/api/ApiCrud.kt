@@ -23,7 +23,7 @@ interface ApiCrud{
     fun currentUser(@Header("Authorization") token: String): Call<User>
 
     @PUT("user")
-    fun updateInfo(@Header("Authorization") token: String, @Body user: EditUser): Call<EditUser>
+    fun updateInfo(@Header("Authorization") token: String, @Body user: EditUser): Observable<Int>
 
     // Plant
     @GET("plants")
@@ -33,7 +33,7 @@ interface ApiCrud{
     fun createPlant(@Header("Authorization") token: String, @Body plant: EditPlant): Observable<Plant>
 
     @HTTP(method = "DELETE", path = "plants", hasBody = true)
-    fun deletePlant(@Header("Authorization") token: String, @Body plant: Plant): Observable<Plant>
+    fun deletePlant(@Header("Authorization") token: String, @Body plant: Plant): Observable<Int>
 
     @PUT("plants")
     fun updatePlant(@Header("Authorization") token: String, @Body plant: Plant): Observable<Int>
