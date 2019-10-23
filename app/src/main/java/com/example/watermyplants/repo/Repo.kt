@@ -71,7 +71,7 @@ class Repo(context: Context) {
         PlantListDao.deletePlant(token, plant)
     }
 
-    fun plantDeleted(): LiveData<Int>{
+    fun plantDeleted(): LiveData<Plant>{
         return PlantListDao.plantDeleted
     }
 
