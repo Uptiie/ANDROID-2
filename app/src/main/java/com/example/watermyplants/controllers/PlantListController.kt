@@ -1,14 +1,12 @@
 package com.example.watermyplants.controllers
 
-import android.content.SharedPreferences
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.*
-import androidx.core.content.edit
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
 import com.bluelinelabs.conductor.RouterTransaction
@@ -16,6 +14,7 @@ import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.watermyplants.App
 import com.example.watermyplants.R
 import com.example.watermyplants.models.Plant
+import com.example.watermyplants.util.showToast
 import com.example.watermyplants.viewmodel.PlantListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.plant_card_view.view.*
@@ -42,7 +41,6 @@ class PlantListController : ViewModelController {
 
         viewModel = viewModelProvider().get(PlantListViewModel::class.java)
 
-
         val token = App.sharedPref?.getString(App.TOKEN_KEY, "")
 
         view.plant_recycler_view.apply {
@@ -55,12 +53,25 @@ class PlantListController : ViewModelController {
         }
 
 
+        fun isConnected(): Boolean{
+            val connectivityManager = view.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+            val activeNetwork = connectivityManager.activeNetworkInfo
+            return (activeNetwork != null) && activeNetwork.isConnected
+        }
+
+        if (isConnected()) view.context.showToast("connected")
+        else view.context.showToast("not connected")
+
+
+
+
+
         //TODO: after like 1-3 updates or deletes it stops updating the recycler view right away
         viewModel.getPlantList()?.observe(this, Observer<List<Plant>>{
             if (it != null) {
-                val sortedList = it.sortedBy { it.id }
-                sortedList.forEach {
-                    list.add(it)
+                val sortedList = it.sortedBy {plant -> plant.id }
+                sortedList.forEach { plant ->
+                    list.add(plant)
                     view.plant_recycler_view.adapter?.notifyDataSetChanged()
                 }
             }
@@ -97,10 +108,7 @@ class PlantListController : ViewModelController {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onChangeEnded(
-        changeHandler: ControllerChangeHandler,
-        changeType: ControllerChangeType
-    ) {
+    override fun onChangeEnded(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
         super.onChangeEnded(changeHandler, changeType)
 
         // When FloatingActionButton is clicked, the create_plant_list_item will inflate from the PlantController
