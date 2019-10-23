@@ -12,7 +12,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
 
-object AuthDao {
+object UserDao {
     private val _loginSuccessful = MutableLiveData<Boolean>()
     val loginSuccessful: LiveData<Boolean> = _loginSuccessful
     private val disposableLogin = CompositeDisposable()
@@ -62,6 +62,33 @@ object AuthDao {
 
             override fun onError(e: Throwable) {
                 _registerSuccessful.value = false
+            }
+
+        }))
+    }
+
+
+    private val disposableUpdate = CompositeDisposable()
+
+    private val _updateSuccessful = MutableLiveData<Int>()
+    val updateSuccessful: LiveData<Int> = _updateSuccessful
+
+    fun updateUser(token: String, user: EditUser){
+        val observable = ApiBuilder.apiCall().updateInfo(token, user)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+        disposableUpdate.add(observable.subscribeWith(object : DisposableObserver<Int>() {
+            override fun onComplete() {
+
+            }
+
+            override fun onNext(t: Int){
+                _updateSuccessful.value = t
+            }
+
+            override fun onError(e: Throwable) {
+                println(e)
+                _updateSuccessful.value = null
             }
 
         }))

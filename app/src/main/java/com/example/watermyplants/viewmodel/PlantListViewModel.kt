@@ -41,7 +41,7 @@ class PlantListViewModel: ViewModel() {
         repo?.deletePlant(token, plant)
     }
 
-    fun plantDeleted(): LiveData<Plant>?{
+    fun plantDeleted(): LiveData<Int>?{
         return repo?.plantDeleted()
     }
 

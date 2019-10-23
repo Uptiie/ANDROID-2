@@ -14,6 +14,7 @@ import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.watermyplants.R
 import com.example.watermyplants.models.EditUser
+import com.example.watermyplants.util.isNotBlank
 import com.example.watermyplants.util.showToast
 import com.example.watermyplants.viewmodel.LoginViewModel
 import work.beltran.conductorviewmodel.ViewModelController
@@ -72,8 +73,6 @@ class RegisterController : ViewModelController {
                             )
                         }
                     })
-
-
                 } else {
                     view?.context?.showToast("Passwords to match")
                 }
@@ -85,6 +84,3 @@ class RegisterController : ViewModelController {
 
 }
 
-fun isNotBlank(name: EditText?, phone: EditText?, pass: EditText?, passConfirm: EditText?): Boolean{
-    return !name?.text.isNullOrBlank() && !phone?.text.isNullOrBlank() && !pass?.text.isNullOrBlank() && !passConfirm?.text.isNullOrBlank()
-}
