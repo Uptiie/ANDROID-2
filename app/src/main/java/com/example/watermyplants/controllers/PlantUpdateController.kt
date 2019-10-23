@@ -5,47 +5,94 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import androidx.lifecycle.Observer
 import com.bluelinelabs.conductor.Controller
+import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
+import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler
+import com.example.watermyplants.App
 import com.example.watermyplants.R
+import com.example.watermyplants.models.Plant
+import com.example.watermyplants.util.showToast
+import com.example.watermyplants.viewmodel.PlantListViewModel
+import kotlinx.android.synthetic.main.plant_details_layout.view.*
+import work.beltran.conductorviewmodel.ViewModelController
 
-class PlantUpdateController : Controller {
+class PlantUpdateController : ViewModelController {
 
     constructor() : super()
-    constructor(args: Bundle?) : super(args)
+    constructor(args: Bundle?) : super(args){
+        args?.getSerializable(PlantListController.PLANT_KEY)
+    }
 
     // Inflate Plant Details Layout
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.plant_details_layout, container, false)
 
+        val viewModel = viewModelProvider().get(PlantListViewModel::class.java)
+
+        val plant = args.getSerializable(PlantListController.PLANT_KEY) as Plant
+
+        val checkNullToken = App.sharedPref?.getString(App.TOKEN_KEY, "")
+
+        val nickname = view.et_nickname_details
+        val species = view.et_species_details
+        val frequency = view.et_h20frequency_int_details
+
+        nickname.setText(plant.nickname)
+        species.setText(plant.species)
+        frequency.setText(plant.h2oFrequency.toString())
+        var token = ""
+
+        if (checkNullToken != null){
+            token = checkNullToken
+        }
+
         // When "Cancel" button is clicked, the plant_list will inflate from the PlantListController
-        view?.findViewById<Button>(R.id.btn_listing_cancel_details)?.setOnClickListener {
-            router.pushController(
-                RouterTransaction.with(PlantListController(args))
-                    .pushChangeHandler(HorizontalChangeHandler())
-                    .popChangeHandler(HorizontalChangeHandler())
-            )
+        view?.btn_listing_cancel_details?.setOnClickListener {
+            returnToList(router)
         }
 
         // When "Update" button is clicked, the plant_list will inflate from the PlantListController
-        view?.findViewById<Button>(R.id.btn_listing_update_details)?.setOnClickListener {
-            router.pushController(
-                RouterTransaction.with(PlantListController(args))
-                    .pushChangeHandler(HorizontalChangeHandler())
-                    .popChangeHandler(HorizontalChangeHandler())
-            )
+        view?.btn_listing_update_details?.setOnClickListener {
+            val nicknameValue = nickname.text.toString()
+            val speciesValue = species.text.toString()
+            val frequencyValue = frequency.text.toString().toInt()
+
+            val updatedPlant = Plant(nicknameValue, speciesValue, frequencyValue, plant.user_id, plant.id)
+
+            viewModel.updatePlant(token, updatedPlant)
+
+            viewModel.plantUpdated()?.observe(this, Observer<Int>{
+                if (it != null){
+                    view.context.showToast("Plant Updated")
+                    returnToList(router)
+                }
+            })
         }
 
         // When "Delete" button is clicked, the plant_list will inflate from the PlantListController
-        view?.findViewById<Button>(R.id.btn_listing_delete_details)?.setOnClickListener {
-            router.pushController(
-                RouterTransaction.with(PlantListController(args))
-                    .pushChangeHandler(HorizontalChangeHandler())
-                    .popChangeHandler(HorizontalChangeHandler())
-            )
+        view?.btn_listing_delete_details?.setOnClickListener {
+
+            viewModel.deletePlant(token, plant)
+
+            viewModel.plantDeleted()?.observe(this, Observer<Plant>{
+                if (it != null){
+                    view.context.showToast("Plant Deleted")
+                    returnToList(router)
+                }
+            })
         }
 
         return view
     }
+}
+
+fun returnToList(router: Router){
+    router.pushController(
+        RouterTransaction.with(PlantListController())
+            .pushChangeHandler(HorizontalChangeHandler())
+            .popChangeHandler(HorizontalChangeHandler())
+    )
 }
