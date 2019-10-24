@@ -74,10 +74,11 @@ class RootController : ViewModelController {
                     when (it) {
                         true -> {
                             router.pushController(
-                                RouterTransaction.with(PlantListController(args))
+                                RouterTransaction.with(PlantListController())
                                     .pushChangeHandler(HorizontalChangeHandler())
                                     .popChangeHandler(HorizontalChangeHandler())
                             )
+                            viewModel.reset()
                         }
                         false -> {
                             progressBar?.visibility = View.INVISIBLE

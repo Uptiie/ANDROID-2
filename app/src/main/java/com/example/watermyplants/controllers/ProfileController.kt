@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.Observer
-import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.watermyplants.App
@@ -17,7 +16,6 @@ import com.example.watermyplants.util.isNotBlank
 import com.example.watermyplants.util.showToast
 import com.example.watermyplants.viewmodel.UpdateUserViewModel
 import kotlinx.android.synthetic.main.profile_layout.view.*
-import org.json.JSONObject
 import work.beltran.conductorviewmodel.ViewModelController
 
 class ProfileController : ViewModelController {

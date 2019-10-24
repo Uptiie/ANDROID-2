@@ -15,6 +15,7 @@ import com.example.watermyplants.R
 import com.example.watermyplants.models.EditPlant
 import com.example.watermyplants.models.Plant
 import com.example.watermyplants.util.NotificationUtils
+import com.example.watermyplants.util.hideKeyboard
 import com.example.watermyplants.util.showToast
 import com.example.watermyplants.viewmodel.PlantListViewModel
 import kotlinx.android.synthetic.main.create_plant_list_item.view.*
@@ -59,6 +60,7 @@ class PlantController : ViewModelController {
                     viewModel.plantCreated()?.observe(this, Observer<Plant>{
                         if (it != null){
                             view.context.showToast("Plant created")
+                            view.hideKeyboard()
                             router.pushController(
                                 RouterTransaction.with(PlantListController(args))
                                     .pushChangeHandler(HorizontalChangeHandler())

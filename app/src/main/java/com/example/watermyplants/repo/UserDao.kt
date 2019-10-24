@@ -78,9 +78,7 @@ object UserDao {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         disposableUpdate.add(observable.subscribeWith(object : DisposableObserver<Int>() {
-            override fun onComplete() {
-
-            }
+            override fun onComplete() {}
 
             override fun onNext(t: Int){
                 _updateSuccessful.value = t

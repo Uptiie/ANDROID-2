@@ -23,9 +23,7 @@ object PlantListDao {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         disposableCreatePlant.add(observable.subscribeWith(object: DisposableObserver<Plant>(){
-            override fun onComplete() {
-                println("complete")
-            }
+            override fun onComplete() {}
 
             override fun onNext(t: Plant) {
                 _plantCreated.value = t
@@ -58,9 +56,7 @@ object PlantListDao {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         disposablePlantList.add(observable.subscribeWith(object: DisposableObserver<List<Plant>>(){
-            override fun onComplete() {
-                println("complete")
-            }
+            override fun onComplete() {}
 
             override fun onNext(t: List<Plant>) {
                 _plantList.value = t
@@ -82,13 +78,11 @@ object PlantListDao {
         val observable = ApiBuilder.apiCall().updatePlant(token, plant)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-        disposableUpdatePlant.add(observable.subscribeWith(object: DisposableObserver<Int>(){
-            override fun onComplete() {
-                println("complete")
-            }
+        disposableUpdatePlant.add(observable.subscribeWith(object: DisposableObserver<List<Int>>(){
+            override fun onComplete() {}
 
-            override fun onNext(t: Int) {
-                _plantUpdated.value = t
+            override fun onNext(t: List<Int>) {
+                _plantUpdated.value = t[0]
             }
 
             override fun onError(e: Throwable) {
@@ -109,9 +103,7 @@ object PlantListDao {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         disposableDeletePlant.add(observable.subscribeWith(object: DisposableObserver<Plant>(){
-            override fun onComplete() {
-                println("complete")
-            }
+            override fun onComplete() {}
 
             override fun onNext(t: Plant) {
                 _plantDeleted.value = t
