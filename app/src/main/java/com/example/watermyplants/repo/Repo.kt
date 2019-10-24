@@ -1,8 +1,22 @@
 package com.example.watermyplants.repo
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.net.ConnectivityManager
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.room.Room
 import com.example.watermyplants.models.*
+import com.example.watermyplants.room.PlantDatabase
+import io.reactivex.FlowableSubscriber
+import io.reactivex.SingleObserver
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
+import io.reactivex.internal.operators.single.SingleObserveOn
+import io.reactivex.observers.DisposableObserver
+import io.reactivex.schedulers.Schedulers
+import org.reactivestreams.Subscriber
 
 class Repo(context: Context) {
 
@@ -71,9 +85,55 @@ class Repo(context: Context) {
         PlantListDao.deletePlant(token, plant)
     }
 
-    fun plantDeleted(): LiveData<Int>{
+    fun plantDeleted(): LiveData<Plant>{
         return PlantListDao.plantDeleted
     }
+
+    // Room
+
+
+    val db = Room.databaseBuilder(
+        context,
+        PlantDatabase::class.java,
+        "plant-table"
+    ).fallbackToDestructiveMigration().build()
+
+
+    fun addPlantRoom(plant: Plant){
+        db.plantDao().insert(plant)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object: SingleObserver<Long> {
+                override fun onSuccess(t: Long) {
+                    println("nice")
+                }
+
+                override fun onSubscribe(d: Disposable) {
+                    println("nice")
+                }
+
+                override fun onError(e: Throwable) {
+                    println(e)
+                }
+
+            })
+    }
+
+    private val _allPlantsRoom = MutableLiveData<List<Plant>>()
+    val allPlantsRoom: LiveData<List<Plant>> = _allPlantsRoom
+
+    @SuppressLint("CheckResult")
+    fun getPlantsRoom(){
+        db.plantDao().getAllPlants()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                {_allPlantsRoom.value = it},
+                {e -> println(e)}
+            )
+    }
+
+
 
 
 
