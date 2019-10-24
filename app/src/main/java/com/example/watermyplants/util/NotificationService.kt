@@ -41,8 +41,8 @@ class NotificationService : IntentService("NotificationService") {
 
     companion object {
 
-        const val CHANNEL_ID = "samples.notification.devdeeds.com.CHANNEL_ID"
-        const val CHANNEL_NAME = "Sample Notification"
+        const val CHANNEL_ID = "CHANNEL_ID"
+        const val CHANNEL_NAME = "Channel Notification"
     }
 
     override fun onHandleIntent(intent: Intent?) {
@@ -82,7 +82,7 @@ class NotificationService : IntentService("NotificationService") {
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.flower)
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
+                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.watercan))
                     .setAutoCancel(true)
                     .setContentTitle(title)
                     .setStyle(Notification.BigTextStyle()
@@ -94,7 +94,7 @@ class NotificationService : IntentService("NotificationService") {
                     // Set the intent that will fire when the user taps the notification
                     .setContentIntent(pendingIntent)
                     .setSmallIcon(R.drawable.flower)
-                    .setLargeIcon(BitmapFactory.decodeResource(res, R.mipmap.ic_launcher))
+                    .setLargeIcon(BitmapFactory.decodeResource(res, R.drawable.watercan))
                     .setAutoCancel(true)
                     .setPriority(Notification.PRIORITY_MAX)
                     .setContentTitle(title)
