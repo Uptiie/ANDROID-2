@@ -9,6 +9,8 @@ import com.example.watermyplants.repo.PlantListDao
 
 class PlantListViewModel: ViewModel() {
 
+    // Retrofit
+
     fun createPlant(token: String, plant: EditPlant){
         repo?.createPlant(token, plant)
     }
@@ -43,6 +45,20 @@ class PlantListViewModel: ViewModel() {
 
     fun plantDeleted(): LiveData<Plant>?{
         return repo?.plantDeleted()
+    }
+
+    // Room
+
+    fun insertPlant(plant: Plant){
+        repo?.addPlantRoom(plant)
+    }
+
+    fun getRoomPlants(){
+        repo?.getPlantsRoom()
+    }
+
+    fun allPlantsRoom(): LiveData<List<Plant>>?{
+        return repo?.allPlantsRoom
     }
 
 }

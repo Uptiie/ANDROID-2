@@ -21,14 +21,16 @@ import kotlinx.android.synthetic.main.plant_card_view.view.*
 import kotlinx.android.synthetic.main.plant_list.view.*
 import work.beltran.conductorviewmodel.ViewModelController
 
+@Suppress("DEPRECATION")
 class PlantListController : ViewModelController {
 
-    companion object{
+    companion object {
         val PLANT_KEY = "plant_key"
     }
 
     private val list = ArrayList<Plant>()
     lateinit var viewModel: PlantListViewModel
+    private var isConnected: Boolean? = null
 
     constructor() : super()
     constructor(args: Bundle?) : super(args)
@@ -39,6 +41,11 @@ class PlantListController : ViewModelController {
         // Inflate Options Menu
         setHasOptionsMenu(true)
 
+        val connectivityManager =
+            view.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = connectivityManager.activeNetworkInfo
+        isConnected = (activeNetwork != null) && activeNetwork.isConnected
+
         viewModel = viewModelProvider().get(PlantListViewModel::class.java)
 
         val token = App.sharedPref?.getString(App.TOKEN_KEY, "")
@@ -48,40 +55,42 @@ class PlantListController : ViewModelController {
             adapter = PlantAdapter(list)
         }
 
-        if (token != null){
-            viewModel.getPlants(token)
-        }
-
-
-        fun isConnected(): Boolean{
-            val connectivityManager = view.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            val activeNetwork = connectivityManager.activeNetworkInfo
-            return (activeNetwork != null) && activeNetwork.isConnected
-        }
-
-        if (isConnected()) view.context.showToast("connected")
-        else view.context.showToast("not connected")
-
-
-
-
-
-        //TODO: after like 1-3 updates or deletes it stops updating the recycler view right away
-        viewModel.getPlantList()?.observe(this, Observer<List<Plant>>{
-            if (it != null) {
-                val sortedList = it.sortedBy {plant -> plant.id }
+        if (isConnected as Boolean) {
+            if (token != null) {
+                viewModel.getPlants(token)
+            }
+            //TODO: after like 1-3 updates or deletes it stops updating the recycler view right away
+            viewModel.getPlantList()?.observe(this, Observer<List<Plant>> {
+                if (it != null) {
+                    val sortedList = it.sortedBy { plant -> plant.id }
+                    sortedList.forEach { plant ->
+                        viewModel.insertPlant(plant)
+                        list.add(plant)
+                        view.plant_recycler_view.adapter?.notifyDataSetChanged()
+                    }
+                }
+            })
+        } else {
+            viewModel.getRoomPlants()
+            viewModel.allPlantsRoom()?.observe(this, Observer<List<Plant>> {
+                val sortedList = it.sortedBy { plant -> plant.id }
                 sortedList.forEach { plant ->
                     list.add(plant)
                     view.plant_recycler_view.adapter?.notifyDataSetChanged()
                 }
-            }
-        })
+            })
+        }
+
         return view
     }
 
     // Inflate Options Menu
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.option_menu, menu)
+        val connected = isConnected as Boolean
+        if (!connected) {
+            menu.getItem(0).isVisible = false
+        }
         super.onCreateOptionsMenu(menu, inflater)
     }
 
@@ -110,20 +119,26 @@ class PlantListController : ViewModelController {
 
     override fun onChangeEnded(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
         super.onChangeEnded(changeHandler, changeType)
-
-        // When FloatingActionButton is clicked, the create_plant_list_item will inflate from the PlantController
-        view?.findViewById<FloatingActionButton>(R.id.fab)?.setOnClickListener {
-            router.pushController(
-                RouterTransaction.with(PlantController(args))
-                    .pushChangeHandler(HorizontalChangeHandler())
-                    .popChangeHandler(HorizontalChangeHandler())
-            )
+        val connected = isConnected as Boolean
+        val fab = view?.findViewById<FloatingActionButton>(R.id.fab)
+        if (!connected) fab?.hide()
+        else {
+            // When FloatingActionButton is clicked, the create_plant_list_item will inflate from the PlantController
+            fab?.setOnClickListener {
+                router.pushController(
+                    RouterTransaction.with(PlantController(args))
+                        .pushChangeHandler(HorizontalChangeHandler())
+                        .popChangeHandler(HorizontalChangeHandler())
+                )
+            }
         }
     }
 
-    inner class PlantAdapter(private val list: ArrayList<Plant>):  RecyclerView.Adapter<PlantAdapter.ViewHolder>(){
+    inner class PlantAdapter(private val list: ArrayList<Plant>) :
+        RecyclerView.Adapter<PlantAdapter.ViewHolder>() {
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.plant_card_view, parent, false)
+            val view =
+                LayoutInflater.from(parent.context).inflate(R.layout.plant_card_view, parent, false)
             return ViewHolder(view)
         }
 
@@ -133,20 +148,22 @@ class PlantListController : ViewModelController {
             val plant = list[position]
             holder.nickname.text = plant.nickname
             holder.species.text = plant.species
-            holder.frequency.text = "${plant.h2oFrequency}"
+            holder.frequency.text = "I need to be watered every ${plant.h2oFrequency} day(s)"
 
-            holder.plantCard.setOnClickListener {
-                args.putSerializable(PLANT_KEY, plant)
-                router.pushController(
-                    RouterTransaction.with(PlantUpdateController(args))
-                        .pushChangeHandler(HorizontalChangeHandler())
-                        .popChangeHandler(HorizontalChangeHandler())
-                )
+            val connected = isConnected as Boolean
+            if (connected){
+                holder.plantCard.setOnClickListener {
+                    args.putSerializable(PLANT_KEY, plant)
+                    router.pushController(
+                        RouterTransaction.with(PlantUpdateController(args))
+                            .pushChangeHandler(HorizontalChangeHandler())
+                            .popChangeHandler(HorizontalChangeHandler())
+                    )
+                }
             }
         }
 
-
-        inner class ViewHolder(view: View): RecyclerView.ViewHolder(view){
+        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val nickname = view.tv_plant_nickname
             val species = view.tv_plant_species
             val frequency = view.tv_plant_frequency
