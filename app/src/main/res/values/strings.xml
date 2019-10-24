@@ -17,4 +17,6 @@
     <string name="edit_user_profile">Edit User Profile</string>
     <string name="logout">Logout</string>
     <string name="add">Add</string>
+
+    <string name="notification_channel_description">This is a sample notification channel for demonstration purpose.</string>
 </resources>
