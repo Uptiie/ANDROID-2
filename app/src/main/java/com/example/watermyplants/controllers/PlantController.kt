@@ -1,22 +1,23 @@
 package com.example.watermyplants.controllers
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.lifecycle.Observer
-import com.bluelinelabs.conductor.Controller
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.watermyplants.App
 import com.example.watermyplants.R
 import com.example.watermyplants.models.EditPlant
 import com.example.watermyplants.models.Plant
+import com.example.watermyplants.util.NotificationUtils
 import com.example.watermyplants.util.showToast
 import com.example.watermyplants.viewmodel.PlantListViewModel
 import kotlinx.android.synthetic.main.create_plant_list_item.view.*
 import work.beltran.conductorviewmodel.ViewModelController
+import java.util.*
 
 class PlantController : ViewModelController {
 
@@ -39,6 +40,11 @@ class PlantController : ViewModelController {
 
 
         view?.btn_listing_add?.setOnClickListener {
+
+            var mediaPlayer: MediaPlayer
+            val mNotificationTime = Calendar.getInstance().timeInMillis + 5000
+            var mNotified = false
+
             val nicknameValue = nickname?.text.toString()
             val speciesValue = species?.text.toString()
             val frequencyValue = frequency?.text.toString()
@@ -54,11 +60,19 @@ class PlantController : ViewModelController {
                                     .pushChangeHandler(HorizontalChangeHandler())
                                     .popChangeHandler(HorizontalChangeHandler())
                             )
-                        } else {
-                            view.context.showToast("Failed to create plant")
+
+                            // Plays audio when plant is added
+                            mediaPlayer = MediaPlayer.create(activity, R.raw.water)
+                            mediaPlayer.start()
+
+                            // Sends notification
+                            NotificationUtils().setNotification(mNotificationTime, activity!!)
+
                         }
                     })
                 }
+            } else {
+                view.context.showToast("Failed to create plant")
             }
         }
         return view
