@@ -16,6 +16,7 @@ import com.example.watermyplants.R
 import com.example.watermyplants.models.Plant
 import com.example.watermyplants.util.showToast
 import com.example.watermyplants.viewmodel.PlantListViewModel
+import com.example.watermyplants.viewmodel.TestViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.plant_card_view.view.*
 import kotlinx.android.synthetic.main.plant_list.view.*
@@ -35,6 +36,10 @@ class PlantListController : ViewModelController {
     constructor() : super()
     constructor(args: Bundle?) : super(args)
 
+    init {
+        val i = 0
+    }
+
     // Inflate Plant List Layout
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.plant_list, container, false)
@@ -47,6 +52,8 @@ class PlantListController : ViewModelController {
         isConnected = (activeNetwork != null) && activeNetwork.isConnected
 
         viewModel = viewModelProvider().get(PlantListViewModel::class.java)
+
+        //val testViewModel = viewModelProvider().get(TestViewModel::class.java)
 
         val token = App.sharedPref?.getString(App.TOKEN_KEY, "")
 
@@ -61,11 +68,12 @@ class PlantListController : ViewModelController {
             }
             //TODO: after like 1-3 updates or deletes it stops updating the recycler view right away
             viewModel.getPlantList()?.observe(this, Observer<List<Plant>> {
+                val i = it
                 if (it != null) {
                     val sortedList = it.sortedBy { plant -> plant.id }
                     sortedList.forEach { plant ->
-                        viewModel.insertPlant(plant)
                         list.add(plant)
+                        viewModel.insertPlant(plant)
                         view.plant_recycler_view.adapter?.notifyDataSetChanged()
                     }
                 }
@@ -76,6 +84,7 @@ class PlantListController : ViewModelController {
                 val sortedList = it.sortedBy { plant -> plant.id }
                 sortedList.forEach { plant ->
                     list.add(plant)
+                    viewModel.resetPlantList()
                     view.plant_recycler_view.adapter?.notifyDataSetChanged()
                 }
             })
@@ -172,11 +181,18 @@ class PlantListController : ViewModelController {
         }
     }
 
+
+
     override fun onDestroyView(view: View) {
         super.onDestroyView(view)
         list.clear()
         viewModel.resetPlantList()
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        val i = 0
     }
 
 }

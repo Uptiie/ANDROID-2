@@ -67,7 +67,7 @@ class RegisterController : ViewModelController {
                         }
                         else {
                             router.pushController(
-                                RouterTransaction.with(PlantListController(args))
+                                RouterTransaction.with(PlantListController())
                                     .pushChangeHandler(HorizontalChangeHandler())
                                     .popChangeHandler(HorizontalChangeHandler())
                             )

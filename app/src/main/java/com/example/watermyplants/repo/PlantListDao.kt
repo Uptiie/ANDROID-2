@@ -47,10 +47,14 @@ object PlantListDao {
 
     fun resetPlantList(){
         _plantList.value = null
+        _plantCreated.value = null
+        _plantDeleted.value = null
+        _plantUpdated.value = null
     }
 
     fun getPlants(token: String){
         val observable = ApiBuilder.apiCall().getPlants(token)
+            .toObservable()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         disposablePlantList.add(observable.subscribeWith(object: DisposableObserver<List<Plant>>(){
