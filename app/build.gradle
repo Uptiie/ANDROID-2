@@ -44,14 +44,17 @@ dependencies {
     implementation "com.bluelinelabs:conductor-support:3.0.0-rc2"
     implementation "com.github.miquelbeltran:conductor-viewmodel:1.0.3"
 
+    // Live Data
     implementation "androidx.lifecycle:lifecycle-livedata-core:2.1.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
 
+    // Retrofit
     implementation 'com.squareup.okhttp3:okhttp:4.2.2'
     implementation 'com.squareup.retrofit2:retrofit:2.6.2'
     implementation 'com.squareup.retrofit2:converter-moshi:2.6.2'
     implementation 'com.squareup.moshi:moshi:1.8.0'
 
+    // Rx Java
     implementation "io.reactivex.rxjava2:rxjava:2.2.9"
     implementation "io.reactivex.rxjava2:rxandroid:2.1.1"
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.6.2'
@@ -60,6 +63,13 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.2.0'
     implementation 'androidx.room:room-rxjava2:2.2.0'
     kapt 'androidx.room:room-compiler:2.2.0'
+
+    // Unit test
+    testImplementation 'org.mockito:mockito-core:3.0.0'
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:${kotlin_version}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0"
+    testImplementation "org.mockito:mockito-inline:2.13.0"
+    testImplementation 'org.robolectric:robolectric:4.3'
 
 
 }
