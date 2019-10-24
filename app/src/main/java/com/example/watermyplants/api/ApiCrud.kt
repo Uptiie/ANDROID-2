@@ -1,6 +1,7 @@
 package com.example.watermyplants.api
 
 import com.example.watermyplants.models.*
+import io.reactivex.Flowable
 import io.reactivex.Observable
 import retrofit2.Call
 import retrofit2.http.*
@@ -27,7 +28,7 @@ interface ApiCrud{
 
     // Plant
     @GET("plants")
-    fun getPlants(@Header("Authorization") token: String): Observable<List<Plant>>
+    fun getPlants(@Header("Authorization") token: String): Flowable<List<Plant>>
 
     @POST("plants")
     fun createPlant(@Header("Authorization") token: String, @Body plant: EditPlant): Observable<Plant>

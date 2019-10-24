@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.Observer
-import com.bluelinelabs.conductor.Controller
-import com.bluelinelabs.conductor.Router
-import com.bluelinelabs.conductor.RouterTransaction
+import com.bluelinelabs.conductor.*
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler
 import com.example.watermyplants.App
@@ -26,11 +24,13 @@ class PlantUpdateController : ViewModelController {
         args?.getSerializable(PlantListController.PLANT_KEY)
     }
 
+    lateinit var viewModel: PlantListViewModel
+
     // Inflate Plant Details Layout
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.plant_details_layout, container, false)
 
-        val viewModel = viewModelProvider().get(PlantListViewModel::class.java)
+        viewModel = viewModelProvider().get(PlantListViewModel::class.java)
 
         val plant = args.getSerializable(PlantListController.PLANT_KEY) as Plant
 
@@ -87,6 +87,14 @@ class PlantUpdateController : ViewModelController {
 
         return view
     }
+
+    override fun onChangeEnded(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
+        super.onChangeEnded(changeHandler, changeType)
+
+        viewModel.resetPlantList()
+
+    }
+
 }
 
 fun returnToList(router: Router){
