@@ -3,9 +3,7 @@ package com.example.watermyplants.room
 import androidx.room.*
 import com.example.watermyplants.models.Plant
 import io.reactivex.Flowable
-import io.reactivex.Observable
 import io.reactivex.Single
-import java.util.*
 
 @Dao
 interface PlantRoomCrud {

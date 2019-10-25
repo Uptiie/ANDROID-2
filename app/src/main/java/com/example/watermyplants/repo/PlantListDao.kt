@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import com.example.watermyplants.api.ApiBuilder
 import com.example.watermyplants.models.EditPlant
 import com.example.watermyplants.models.Plant
-import io.reactivex.Scheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.observers.DisposableObserver
@@ -116,8 +115,4 @@ object PlantListDao {
 
         }))
     }
-
-
-
-
 }

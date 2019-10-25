@@ -8,8 +8,6 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import com.bluelinelabs.conductor.ControllerChangeHandler
 import com.bluelinelabs.conductor.ControllerChangeType
-import com.bluelinelabs.conductor.RouterTransaction
-import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.watermyplants.App
 import com.example.watermyplants.R
 import com.example.watermyplants.models.EditPlant
@@ -60,7 +58,7 @@ class PlantController : ViewModelController {
                     viewModel.plantCreated()?.observe(this, Observer<Plant>{
                         if (it != null) {
                             if (it.id != -1) {
-                                view.context.showToast("Plant created")
+                                view.context.showToast("${plant.nickname} created")
                                 view.hideKeyboard()
                                 router.popCurrentController()
 
@@ -71,7 +69,7 @@ class PlantController : ViewModelController {
                                 // Sends notification
                                 NotificationUtils().setNotification(mNotificationTime, activity!!)
 
-                            } else view.context.showToast("Failed to create plant")
+                            } else view.context.showToast("Failed to create ${plant.nickname}")
                         }
                     })
                 }

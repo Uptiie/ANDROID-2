@@ -14,7 +14,6 @@ import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.watermyplants.App
 import com.example.watermyplants.R
 import com.example.watermyplants.models.Plant
-import com.example.watermyplants.util.hideKeyboard
 import com.example.watermyplants.viewmodel.PlantListViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.plant_card_view.view.*
@@ -40,8 +39,6 @@ class PlantListController : ViewModelController {
         val view = inflater.inflate(R.layout.plant_list, container, false)
         // Inflate Options Menu
         setHasOptionsMenu(true)
-
-
 
         val connectivityManager =
             view.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
