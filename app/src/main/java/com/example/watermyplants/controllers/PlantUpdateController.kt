@@ -12,6 +12,7 @@ import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler
 import com.example.watermyplants.App
 import com.example.watermyplants.R
 import com.example.watermyplants.models.Plant
+import com.example.watermyplants.util.hideKeyboard
 import com.example.watermyplants.util.showToast
 import com.example.watermyplants.viewmodel.PlantListViewModel
 import kotlinx.android.synthetic.main.plant_details_layout.view.*
@@ -51,6 +52,7 @@ class PlantUpdateController : ViewModelController {
 
         // When "Cancel" button is clicked, the plant_list will inflate from the PlantListController
         view?.btn_listing_cancel_details?.setOnClickListener {
+            view.hideKeyboard()
             returnToList(router)
         }
 
@@ -65,9 +67,12 @@ class PlantUpdateController : ViewModelController {
             viewModel.updatePlant(token, updatedPlant)
 
             viewModel.plantUpdated()?.observe(this, Observer<Int>{
-                if (it != null){
-                    view.context.showToast("Plant Updated")
-                    returnToList(router)
+                if (it != null) {
+                    if (it != -1) {
+                        view.context.showToast("Plant Updated")
+                        view.hideKeyboard()
+                        returnToList(router)
+                    } else view.context.showToast("Failed to create plant")
                 }
             })
         }
@@ -80,6 +85,7 @@ class PlantUpdateController : ViewModelController {
             viewModel.plantDeleted()?.observe(this, Observer<Plant>{
                 if (it != null){
                     view.context.showToast("Plant Deleted")
+                    view.hideKeyboard()
                     returnToList(router)
                 }
             })
@@ -98,9 +104,5 @@ class PlantUpdateController : ViewModelController {
 }
 
 fun returnToList(router: Router){
-    router.pushController(
-        RouterTransaction.with(PlantListController())
-            .pushChangeHandler(HorizontalChangeHandler())
-            .popChangeHandler(HorizontalChangeHandler())
-    )
+    router.popCurrentController()
 }

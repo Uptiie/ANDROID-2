@@ -23,9 +23,7 @@ object PlantListDao {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         disposableCreatePlant.add(observable.subscribeWith(object: DisposableObserver<Plant>(){
-            override fun onComplete() {
-                println("complete")
-            }
+            override fun onComplete() {}
 
             override fun onNext(t: Plant) {
                 _plantCreated.value = t
@@ -33,7 +31,7 @@ object PlantListDao {
 
             override fun onError(e: Throwable) {
                 println(e)
-                _plantCreated.value = null
+                _plantCreated.value = Plant("", "", 0, 0, -1)
             }
 
         }))
@@ -58,9 +56,7 @@ object PlantListDao {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         disposablePlantList.add(observable.subscribeWith(object: DisposableObserver<List<Plant>>(){
-            override fun onComplete() {
-                println("complete")
-            }
+            override fun onComplete() {}
 
             override fun onNext(t: List<Plant>) {
                 _plantList.value = t
@@ -83,9 +79,7 @@ object PlantListDao {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         disposableUpdatePlant.add(observable.subscribeWith(object: DisposableObserver<Int>(){
-            override fun onComplete() {
-                println("complete")
-            }
+            override fun onComplete() {}
 
             override fun onNext(t: Int) {
                 _plantUpdated.value = t
@@ -93,7 +87,7 @@ object PlantListDao {
 
             override fun onError(e: Throwable) {
                 println(e)
-                _plantCreated.value = null
+                _plantUpdated.value = -1
             }
 
         }))
@@ -109,9 +103,7 @@ object PlantListDao {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         disposableDeletePlant.add(observable.subscribeWith(object: DisposableObserver<Plant>(){
-            override fun onComplete() {
-                println("complete")
-            }
+            override fun onComplete() {}
 
             override fun onNext(t: Plant) {
                 _plantDeleted.value = t

@@ -73,11 +73,9 @@ class RootController : ViewModelController {
                 viewModel.loginSuccessful()?.observe(this, androidx.lifecycle.Observer<Boolean> {
                     when (it) {
                         true -> {
-                            router.pushController(
-                                RouterTransaction.with(PlantListController(args))
-                                    .pushChangeHandler(HorizontalChangeHandler())
-                                    .popChangeHandler(HorizontalChangeHandler())
-                            )
+                            router.setRoot(RouterTransaction.with(PlantListController()))
+                            router.popController(RootController())
+                            viewModel.reset()
                         }
                         false -> {
                             progressBar?.visibility = View.INVISIBLE

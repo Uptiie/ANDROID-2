@@ -15,6 +15,7 @@ import com.example.watermyplants.R
 import com.example.watermyplants.models.EditPlant
 import com.example.watermyplants.models.Plant
 import com.example.watermyplants.util.NotificationUtils
+import com.example.watermyplants.util.hideKeyboard
 import com.example.watermyplants.util.showToast
 import com.example.watermyplants.viewmodel.PlantListViewModel
 import kotlinx.android.synthetic.main.create_plant_list_item.view.*
@@ -57,27 +58,24 @@ class PlantController : ViewModelController {
                 if (token != null){
                     viewModel.createPlant(token, plant)
                     viewModel.plantCreated()?.observe(this, Observer<Plant>{
-                        if (it != null){
-                            view.context.showToast("Plant created")
-                            router.pushController(
-                                RouterTransaction.with(PlantListController(args))
-                                    .pushChangeHandler(HorizontalChangeHandler())
-                                    .popChangeHandler(HorizontalChangeHandler())
-                            )
+                        if (it != null) {
+                            if (it.id != -1) {
+                                view.context.showToast("Plant created")
+                                view.hideKeyboard()
+                                router.popCurrentController()
 
-                            // Plays audio when plant is added
-                            mediaPlayer = MediaPlayer.create(activity, R.raw.water)
-                            mediaPlayer.start()
+                                // Plays audio when plant is added
+                                mediaPlayer = MediaPlayer.create(activity, R.raw.water)
+                                mediaPlayer.start()
 
-                            // Sends notification
-                            NotificationUtils().setNotification(mNotificationTime, activity!!)
+                                // Sends notification
+                                NotificationUtils().setNotification(mNotificationTime, activity!!)
 
+                            } else view.context.showToast("Failed to create plant")
                         }
                     })
                 }
-            } else {
-                view.context.showToast("Failed to create plant")
-            }
+            } else view.context.showToast("Please fill out all fields")
         }
         return view
     }

@@ -15,4 +15,8 @@ class UpdateUserViewModel: ViewModel() {
         return repo?.userUpdated()
     }
 
+    fun reset(){
+        repo?.resetLoginCheck()
+    }
+
 }

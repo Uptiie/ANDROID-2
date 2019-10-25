@@ -17,8 +17,10 @@ object UserDao {
     val loginSuccessful: LiveData<Boolean> = _loginSuccessful
     private val disposableLogin = CompositeDisposable()
 
-    fun resetLoginCheck(){
+    fun resetUser(){
         _loginSuccessful.value = null
+        _registerSuccessful.value = null
+        _updateSuccessful.value = null
     }
 
     fun getLoginToken(user: User) {
@@ -78,9 +80,7 @@ object UserDao {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
         disposableUpdate.add(observable.subscribeWith(object : DisposableObserver<Int>() {
-            override fun onComplete() {
-
-            }
+            override fun onComplete() {}
 
             override fun onNext(t: Int){
                 _updateSuccessful.value = t
@@ -88,7 +88,7 @@ object UserDao {
 
             override fun onError(e: Throwable) {
                 println(e)
-                _updateSuccessful.value = null
+                _updateSuccessful.value = -1
             }
 
         }))

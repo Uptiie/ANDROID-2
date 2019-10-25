@@ -2,13 +2,15 @@ package com.example.watermyplants
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.bluelinelabs.conductor.Conductor
 import com.bluelinelabs.conductor.Router
 import com.bluelinelabs.conductor.RouterTransaction
 import com.example.watermyplants.controllers.PlantListController
 import com.example.watermyplants.controllers.RootController
+import com.example.watermyplants.viewmodel.MainViewModel
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,17 +23,31 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val token = App.sharedPref?.getString(App.TOKEN_KEY, "")
+        val viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
 
+        val token = App.sharedPref?.getString(App.TOKEN_KEY, "")
         router = Conductor.attachRouter(this, container, savedInstanceState)
+
         if (!router.hasRootController()) {
-            if (token != "") router.setRoot(RouterTransaction.with(PlantListController()))
-            else router.setRoot(RouterTransaction.with(RootController()))
+            if (token != null) {
+                viewModel.checkToken(token)
+            } else router.setRoot(RouterTransaction.with(RootController()))
+
+            viewModel.isTokenGood.observe(this, Observer<Boolean> {
+                if (it != null){
+                    if (it) router.setRoot(RouterTransaction.with(PlantListController()))
+                    else router.setRoot(RouterTransaction.with(RootController()))
+                }
+
+            })
+
         }
     }
 
     override fun onBackPressed() {
-        if (!router.handleBack())
-        super.onBackPressed()
+        if (!router.handleBack()){
+            super.onBackPressed()
+        }
+
     }
 }
