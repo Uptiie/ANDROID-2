@@ -10,7 +10,6 @@ import android.media.RingtoneManager
 import android.os.Build
 import com.example.watermyplants.MainActivity
 import com.example.watermyplants.R
-import com.example.watermyplants.models.Plant
 import java.util.*
 
 class NotificationService : IntentService("NotificationService") {

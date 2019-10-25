@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import com.example.watermyplants.App.Companion.repo
 import com.example.watermyplants.models.EditPlant
 import com.example.watermyplants.models.Plant
-import com.example.watermyplants.repo.PlantListDao
 
 class PlantListViewModel: ViewModel() {
 

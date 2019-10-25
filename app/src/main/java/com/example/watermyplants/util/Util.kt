@@ -1,6 +1,5 @@
 package com.example.watermyplants.util
 
-import android.app.Activity
 import android.content.Context
 import android.text.InputType
 import android.view.View
@@ -8,7 +7,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.fragment.app.Fragment
 import com.example.watermyplants.R
 import org.json.JSONObject
 

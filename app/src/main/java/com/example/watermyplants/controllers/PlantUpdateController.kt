@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.lifecycle.Observer
 import com.bluelinelabs.conductor.*
-import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
-import com.bluelinelabs.conductor.changehandler.VerticalChangeHandler
 import com.example.watermyplants.App
 import com.example.watermyplants.R
 import com.example.watermyplants.models.Plant
@@ -69,10 +66,10 @@ class PlantUpdateController : ViewModelController {
             viewModel.plantUpdated()?.observe(this, Observer<Int>{
                 if (it != null) {
                     if (it != -1) {
-                        view.context.showToast("Plant Updated")
+                        view.context.showToast("${plant.nickname} Updated")
                         view.hideKeyboard()
                         returnToList(router)
-                    } else view.context.showToast("Failed to create plant")
+                    } else view.context.showToast("Failed to create ${plant.nickname}")
                 }
             })
         }
@@ -84,7 +81,7 @@ class PlantUpdateController : ViewModelController {
 
             viewModel.plantDeleted()?.observe(this, Observer<Plant>{
                 if (it != null){
-                    view.context.showToast("Plant Deleted")
+                    view.context.showToast("${plant.nickname} Deleted")
                     view.hideKeyboard()
                     returnToList(router)
                 }
