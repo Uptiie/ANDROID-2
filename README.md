@@ -9,22 +9,27 @@ The user must login first. If the user does not have an account, they can click 
 
 <img src="pictures/login.png" alt="applauncher" width="280px"> <img src="pictures/register.png" alt="applauncher" width="280px">
 
+## Homepage:
 The homepage shows a list of all the users plants that have been added (CardView/RecyclerView).
 
 <img src="pictures/plantlist.png" alt="applauncher" width="280px">
 
+## Add Plant:
 From the homepage, the user can add a plant by click on the floating action button.
 
 <img src="pictures/addplant.png" alt="applauncher" width="280px">
 
+## Notification:
 After the user has created a plant entry, a notification will be set up.
 
 <img src="pictures/notification.png" alt="applauncher" width="280px">
 
+## Update/Delete Plant:
 The user also has the ability to update/delete a plant entry.
 
 <img src="pictures/updateplant.png" alt="applauncher" width="280px">
 
+## Options Menu: Update Profile/Logout
 From the homepage, the user can click on the options menu (top right) to either update their user profile or to logout from the app. 
 
 <img src="pictures/optionsmenu.png" alt="applauncher" width="280px"> <img src="pictures/updateprofile.png" alt="applauncher" width="280px">
