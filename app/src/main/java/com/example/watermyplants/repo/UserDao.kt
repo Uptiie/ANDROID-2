@@ -17,8 +17,10 @@ object UserDao {
     val loginSuccessful: LiveData<Boolean> = _loginSuccessful
     private val disposableLogin = CompositeDisposable()
 
-    fun resetLoginCheck(){
+    fun resetUser(){
         _loginSuccessful.value = null
+        _registerSuccessful.value = null
+        _updateSuccessful.value = null
     }
 
     fun getLoginToken(user: User) {
@@ -86,7 +88,7 @@ object UserDao {
 
             override fun onError(e: Throwable) {
                 println(e)
-                _updateSuccessful.value = null
+                _updateSuccessful.value = -1
             }
 
         }))

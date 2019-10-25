@@ -58,28 +58,24 @@ class PlantController : ViewModelController {
                 if (token != null){
                     viewModel.createPlant(token, plant)
                     viewModel.plantCreated()?.observe(this, Observer<Plant>{
-                        if (it != null){
-                            view.context.showToast("Plant created")
-                            view.hideKeyboard()
-                            router.pushController(
-                                RouterTransaction.with(PlantListController(args))
-                                    .pushChangeHandler(HorizontalChangeHandler())
-                                    .popChangeHandler(HorizontalChangeHandler())
-                            )
+                        if (it != null) {
+                            if (it.id != -1) {
+                                view.context.showToast("Plant created")
+                                view.hideKeyboard()
+                                router.popCurrentController()
 
-                            // Plays audio when plant is added
-                            mediaPlayer = MediaPlayer.create(activity, R.raw.water)
-                            mediaPlayer.start()
+                                // Plays audio when plant is added
+                                mediaPlayer = MediaPlayer.create(activity, R.raw.water)
+                                mediaPlayer.start()
 
-                            // Sends notification
-                            NotificationUtils().setNotification(mNotificationTime, activity!!)
+                                // Sends notification
+                                NotificationUtils().setNotification(mNotificationTime, activity!!)
 
+                            } else view.context.showToast("Failed to create plant")
                         }
                     })
                 }
-            } else {
-                view.context.showToast("Failed to create plant")
-            }
+            } else view.context.showToast("Please fill out all fields")
         }
         return view
     }

@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.lifecycle.Observer
+import com.bluelinelabs.conductor.ControllerChangeHandler
+import com.bluelinelabs.conductor.ControllerChangeType
 import com.bluelinelabs.conductor.RouterTransaction
 import com.bluelinelabs.conductor.changehandler.HorizontalChangeHandler
 import com.example.watermyplants.App
@@ -23,10 +25,12 @@ class ProfileController : ViewModelController {
     constructor() : super()
     constructor(args: Bundle?) : super(args)
 
+    lateinit var viewModel: UpdateUserViewModel
+
     // Inflate Profile Layout
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup): View {
         val view = inflater.inflate(R.layout.profile_layout, container, false)
-        val viewModel = viewModelProvider().get(UpdateUserViewModel::class.java)
+        viewModel = viewModelProvider().get(UpdateUserViewModel::class.java)
 
         val token = App.sharedPref?.getString(App.TOKEN_KEY, "")
 
@@ -52,15 +56,13 @@ class ProfileController : ViewModelController {
                     if (token != null) viewModel.updateUser(token, user)
 
                     viewModel.userUpdated()?.observe(this, Observer {
-                        if (it != null ) {
-                            view.context.showToast("$usernameDeToken updated")
-                            router.pushController(
-                                RouterTransaction.with(PlantListController())
-                                    .pushChangeHandler(HorizontalChangeHandler())
-                                    .popChangeHandler(HorizontalChangeHandler())
-                            )
-
-                        } else view.context.showToast("Failed to update $usernameDeToken")
+                        if (it != null) {
+                            if (it != -1){
+                                router.popCurrentController()
+                                view.context.showToast("$usernameDeToken updated")
+                            }
+                            else view.context.showToast("Failed to update $usernameDeToken")
+                        }
                     })
 
                 } else view.context.showToast("Passwords to match")
@@ -68,5 +70,12 @@ class ProfileController : ViewModelController {
             } else view.context.showToast("Please fill out all fields")
         }
         return view
+    }
+
+    override fun onChangeEnded(changeHandler: ControllerChangeHandler, changeType: ControllerChangeType) {
+        super.onChangeEnded(changeHandler, changeType)
+
+        viewModel.reset()
+
     }
 }

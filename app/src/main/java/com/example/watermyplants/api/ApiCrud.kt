@@ -31,6 +31,6 @@ interface ApiCrud{
     fun deletePlant(@Header("Authorization") token: String, @Body plant: Plant): Observable<Plant>
 
     @PUT("plants")
-    fun updatePlant(@Header("Authorization") token: String, @Body plant: Plant): Observable<List<Int>>
+    fun updatePlant(@Header("Authorization") token: String, @Body plant: Plant): Observable<Int>
 
 }

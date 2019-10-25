@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
         val viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
 
         val token = App.sharedPref?.getString(App.TOKEN_KEY, "")
-        println(token)
         router = Conductor.attachRouter(this, container, savedInstanceState)
 
         if (!router.hasRootController()) {

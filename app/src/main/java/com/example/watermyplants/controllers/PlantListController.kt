@@ -41,11 +41,7 @@ class PlantListController : ViewModelController {
         // Inflate Options Menu
         setHasOptionsMenu(true)
 
-        if(router.backstackSize > 1){
-            router.backstack.forEach {
-                it.popChangeHandler()
-            }
-        }
+
 
         val connectivityManager =
             view.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -116,11 +112,18 @@ class PlantListController : ViewModelController {
         if (id == R.id.menu_logout) {
             App.sharedPref?.edit()?.clear()?.apply()
 
-            router.pushController(
-                RouterTransaction.with(RootController())
-                    .pushChangeHandler(HorizontalChangeHandler())
-                    .popChangeHandler(HorizontalChangeHandler())
-            )
+            if(router.backstackSize == 1){
+                router.pushController(
+                    RouterTransaction.with(RootController())
+                        .pushChangeHandler(HorizontalChangeHandler())
+                        .popChangeHandler(HorizontalChangeHandler())
+                )
+                router.popController(this)
+            } else {
+                router.popToRoot()
+            }
+
+
         }
         return super.onOptionsItemSelected(item)
     }

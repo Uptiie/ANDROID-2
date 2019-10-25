@@ -67,10 +67,12 @@ class PlantUpdateController : ViewModelController {
             viewModel.updatePlant(token, updatedPlant)
 
             viewModel.plantUpdated()?.observe(this, Observer<Int>{
-                if (it != null){
-                    view.context.showToast("Plant Updated")
-                    view.hideKeyboard()
-                    returnToList(router)
+                if (it != null) {
+                    if (it != -1) {
+                        view.context.showToast("Plant Updated")
+                        view.hideKeyboard()
+                        returnToList(router)
+                    } else view.context.showToast("Failed to create plant")
                 }
             })
         }
@@ -102,9 +104,5 @@ class PlantUpdateController : ViewModelController {
 }
 
 fun returnToList(router: Router){
-    router.pushController(
-        RouterTransaction.with(PlantListController())
-            .pushChangeHandler(HorizontalChangeHandler())
-            .popChangeHandler(HorizontalChangeHandler())
-    )
+    router.popCurrentController()
 }

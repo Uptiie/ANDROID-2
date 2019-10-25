@@ -2,21 +2,15 @@ package com.example.watermyplants.repo
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.net.ConnectivityManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.Room
 import com.example.watermyplants.models.*
 import com.example.watermyplants.room.PlantDatabase
-import io.reactivex.FlowableSubscriber
 import io.reactivex.SingleObserver
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
-import io.reactivex.internal.operators.single.SingleObserveOn
-import io.reactivex.observers.DisposableObserver
 import io.reactivex.schedulers.Schedulers
-import org.reactivestreams.Subscriber
 
 class Repo(context: Context) {
 
@@ -31,7 +25,7 @@ class Repo(context: Context) {
     }
 
     fun resetLoginCheck(){
-        UserDao.resetLoginCheck()
+        UserDao.resetUser()
     }
 
     fun registerUser(user: EditUser){

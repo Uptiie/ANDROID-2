@@ -31,7 +31,7 @@ object PlantListDao {
 
             override fun onError(e: Throwable) {
                 println(e)
-                _plantCreated.value = null
+                _plantCreated.value = Plant("", "", 0, 0, -1)
             }
 
         }))
@@ -78,16 +78,16 @@ object PlantListDao {
         val observable = ApiBuilder.apiCall().updatePlant(token, plant)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-        disposableUpdatePlant.add(observable.subscribeWith(object: DisposableObserver<List<Int>>(){
+        disposableUpdatePlant.add(observable.subscribeWith(object: DisposableObserver<Int>(){
             override fun onComplete() {}
 
-            override fun onNext(t: List<Int>) {
-                _plantUpdated.value = t[0]
+            override fun onNext(t: Int) {
+                _plantUpdated.value = t
             }
 
             override fun onError(e: Throwable) {
                 println(e)
-                _plantCreated.value = null
+                _plantUpdated.value = -1
             }
 
         }))
