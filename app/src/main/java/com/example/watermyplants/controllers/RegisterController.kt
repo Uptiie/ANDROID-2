@@ -66,11 +66,8 @@ class RegisterController : ViewModelController {
                             progressBar?.visibility = View.INVISIBLE
                         }
                         else {
-                            router.pushController(
-                                RouterTransaction.with(PlantListController())
-                                    .pushChangeHandler(HorizontalChangeHandler())
-                                    .popChangeHandler(HorizontalChangeHandler())
-                            )
+                            router.setRoot(RouterTransaction.with(PlantListController()))
+                            router.popController(RootController())
                         }
                     })
                 } else {
